@@ -1,1 +1,42 @@
-{}
+{
+  "airllm-apple-silicon-oss": {
+    "url": "https://github.com/UzimakeNarutoszx/airllm-apple-silicon-oss",
+    "private": false
+  },
+  "caravan-beat-lab-oss": {
+    "url": "https://github.com/UzimakeNarutoszx/caravan-beat-lab-oss",
+    "private": false
+  },
+  "chart-generator-oss": {
+    "url": "https://github.com/UzimakeNarutoszx/chart-generator-oss",
+    "private": false
+  },
+  "chinese-character-origins-oss": {
+    "url": "https://github.com/UzimakeNarutoszx/chinese-character-origins-oss",
+    "private": false
+  },
+  "esp32-expression-display-oss": {
+    "url": "https://github.com/UzimakeNarutoszx/esp32-expression-display-oss",
+    "private": false
+  },
+  "go-for-it-oss": {
+    "url": "https://github.com/UzimakeNarutoszx/go-for-it-oss",
+    "private": false
+  },
+  "growth-institute-oss": {
+    "url": "https://github.com/UzimakeNarutoszx/growth-institute-oss",
+    "private": false
+  },
+  "jili-drum-cart-oss": {
+    "url": "https://github.com/UzimakeNarutoszx/jili-drum-cart-oss",
+    "private": false
+  },
+  "naruto-sasuke-trials-oss": {
+    "url": "https://github.com/UzimakeNarutoszx/naruto-sasuke-trials-oss",
+    "private": false
+  },
+  "personal-website-oss": {
+    "url": "https://github.com/UzimakeNarutoszx/personal-website-oss",
+    "private": false
+  }
+}
