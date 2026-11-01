@@ -17,6 +17,7 @@ export interface Project {
   repoName: string;
   website?: string;
   gallery?: { src: string; alt: string }[];
+  video?: { src: string; poster: string; title: string; caption: string };
 }
 
 export interface Track {
