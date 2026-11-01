@@ -1,0 +1,36 @@
+---
+import '../styles/global.css';
+import '../styles/editorial.css';
+import '../styles/studio.css';
+import { githubProfile } from '../data/github';
+interface Props { title?: string; description?: string; }
+const { title = '昔日烬 · 枢', description = '昔日烬的个人创作空间。听见音乐，看见代码，记录正在发生的创作。' } = Astro.props;
+const path = Astro.url.pathname;
+const nav = [{ href: '/', text: '首页' }, { href: '/projects/', text: '项目' }, { href: '/music/', text: '音乐' }, { href: '/scores/', text: '鼓谱' }, { href: '/about/', text: '关于' }];
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content={path.startsWith('/music/') ? '#191b21' : '#ffffff'} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title === '昔日烬 · 枢' ? title : `${title} · 昔日烬`}</title>
+  </head>
+  <body class:list={{ 'home-page': path === '/', 'artist-page': path.startsWith('/music/') }}>
+    <a class="skip-link" href="#main">跳到正文</a>
+    <header class="site-header wrap">
+      <a class="wordmark" href="/" aria-label="昔日烬 · 枢 首页">昔日烬<span class="wordmark-separator">·</span><span class="wordmark-sub">枢</span></a>
+      <nav aria-label="主导航">{nav.map(item => <a href={item.href} aria-current={(item.href === '/' ? path === '/' : path.startsWith(item.href)) ? 'page' : undefined}>{item.text}</a>)}<a class="nav-github" href={githubProfile} target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></nav>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer wrap">
+      <a class="footer-name" href="/">昔日烬<span>殉乐的声音，ENS 的实验</span></a>
+      <div class="footer-right"><a href={githubProfile} target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href={`${githubProfile}/personal-website-oss`} target="_blank" rel="noopener noreferrer">本站源码</a><a class="font-credit" href="https://www.onlinewebfonts.com/fonts" target="_blank" rel="noopener noreferrer">Web Fonts</a><small>© {new Date().getFullYear()} 昔日烬 · 枢</small></div>
+    </footer>
+  </body>
+</html>

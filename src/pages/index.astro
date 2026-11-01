@@ -1,0 +1,18 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import Hero from '../components/Hero';
+import ProjectCard from '../components/ProjectCard.astro';
+import MediaPlayer from '../components/MediaPlayer';
+import { projects } from '../data/projects';
+import { tracks } from '../data/music';
+const featured = projects.filter(project => project.featured).slice(0, 6);
+---
+<SiteLayout>
+  <Hero client:load />
+  <section class="section wrap selected-section" id="selected">
+    <div class="section-heading"><div><p class="section-note">代码与交互 / Selected work</p><h2>把想法<br />交给现实</h2></div><div class="section-heading-aside"><p>阅读、园林、音乐与游戏。<br />六个不同的起点，同一种动手的习惯。</p><a class="text-link" href="/projects/">浏览全部 16 项 <span aria-hidden="true">↗</span></a></div></div>
+    <div class="project-grid selected-grid">{featured.map(project => <ProjectCard project={project} />)}</div>
+  </section>
+  <section class="music-section section"><div class="wrap"><div class="section-heading"><div><p class="section-note">殉乐 / Original music</p><h2>换一种<br />表达方式</h2></div><a class="text-link" href="/music/">聆听完整殉乐集 <span aria-hidden="true">↗</span></a></div><MediaPlayer tracks={tracks.slice(0, 3)} compact client:load /></div></section>
+  <section class="about-section section wrap"><div class="about-index"><span>昔日烬</span><small>当前副名 · 枢</small></div><div class="about-excerpt"><p class="section-note">关于我</p><h2>节拍之外，<br />还有许多想探索的事</h2><p>练鼓、写音乐，学习 Python，用 AI 协作做项目。也读故事、关注公共议题，在这些看起来不同的事情里，慢慢找到自己的表达。</p><a class="text-link" href="/about/">继续认识我 <span aria-hidden="true">↗</span></a></div></section>
+</SiteLayout>

@@ -1,0 +1,25 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import ArtistPlayer from '../../components/ArtistPlayer';
+import { tracks } from '../../data/music';
+import '../../styles/artist.css';
+---
+<SiteLayout title="音乐" description="以殉乐之名记录声音。九首原创音乐，节拍与旋律中的个人表达。">
+  <section class="artist-hero" aria-label="殉乐，原创音乐">
+    <img class="artist-hero-image" src="/assets/tianshu.webp" alt="天枢坐在鼓组前，身后延伸出山水与星空" width="1024" height="1024" fetchpriority="high" />
+    <div class="artist-glow" aria-hidden="true" />
+    <div class="artist-hero-heading"><div class="artist-name-row"><h1 aria-label="殉乐">{[...'殉乐'].map((c,i)=><span aria-hidden="true" data-artist-letter style={`--i:${i}`}>{c}</span>)}</h1><span aria-label="Xunyue">{[...'XUNYUE'].map((c,i)=><span aria-hidden="true" data-artist-letter style={`--i:${i+2}`}>{c}</span>)}</span></div><div class="artist-hero-subrow"><span>昔日烬的声音 / Original music</span><span>节奏、旋律，与此刻的自己</span></div></div>
+    <div class="artist-hero-bottom"><p>从架子鼓到原创音乐。<br />把情绪编进节拍，把片刻留在声音里。</p><a class="artist-pill" href="#release">聆听殉乐集 <span aria-hidden="true">↘</span></a></div>
+  </section>
+  <section class="artist-statement" id="statement"><div class="artist-section-line"><span>创作自述 / Artist statement</span><span>殉乐</span></div><h2>有些话，留给旋律来说<br />有些片刻，想用节拍记住</h2><p>练习架子鼓，也尝试用 Cakewalk Next 写下自己的音乐。从钢琴、吉他与鼓组，到弦乐和打击乐，每一次编排，都是一次新的表达。</p></section>
+  <ArtistPlayer tracks={tracks} client:load />
+</SiteLayout>
+<script>
+  const hero = document.querySelector<HTMLElement>('.artist-hero');
+  hero?.addEventListener('pointermove', event => {
+    if (event.pointerType !== 'mouse' || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const rect = hero.getBoundingClientRect();
+    hero.style.setProperty('--x', `${event.clientX - rect.left}px`);
+    hero.style.setProperty('--y', `${event.clientY - rect.top}px`);
+  });
+</script>

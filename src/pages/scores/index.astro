@@ -1,0 +1,6 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import ScorePlayer from '../../components/ScorePlayer';
+import { scores } from '../../data/scores';
+---
+<SiteLayout title="鼓谱与伴奏" description="动态鼓谱与动态伴奏，让节拍有迹可循。"><div class="wrap"><header class="page-heading"><p class="section-note">跟着节奏，继续演奏</p><h1>让每一拍，<br />都有迹可循</h1><p>动态鼓谱与伴奏合集。<br />选择一段视频，跟着画面找到自己的节奏。</p></header><section class="library-section score-grid" aria-label="动态鼓谱与伴奏">{scores.map(score => <ScorePlayer score={score} client:load />)}</section></div></SiteLayout>

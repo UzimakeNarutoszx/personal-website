@@ -1,0 +1,26 @@
+---
+import { projects } from '../data/projects';
+import { tracks } from '../data/music';
+import '../styles/archive.css';
+const images = [projects[0],projects[1],projects[3],projects[4],projects[7],projects[12]].map(p=>({src:p.cover,alt:p.title}));
+const art = tracks.slice(0,4).map(t=>({src:t.cover,alt:t.title}));
+const columns = [
+  [{color:'coral'}, images[0], images[1], {color:'blue'}, art[0]],
+  [{color:'lemon'}, art[1], images[2], images[3], {color:'coral'}],
+  [images[4], {color:'blue'}, art[2], images[5], art[3]],
+];
+---
+<div class="archive-mosaic" data-archive-motion>
+  <div class="archive-columns" aria-hidden="true">{columns.map((items,i)=><div class={`archive-column archive-column-${i}`}><div class="archive-strip">{[0,1].map(()=> <div class="archive-cycle">{items.map(item=><div class:list={['archive-tile', 'color' in item ? `archive-${item.color}` : 'archive-photo']}>{'src' in item && <img src={item.src} alt="" width="400" height="500" loading="eager" />}</div>)}</div>)}</div></div>)}</div>
+  <button type="button" class="archive-motion-toggle" aria-pressed="false">暂停影像</button>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-archive-motion]').forEach(mosaic=>{
+    const button = mosaic.querySelector<HTMLButtonElement>('.archive-motion-toggle');
+    const preference = matchMedia('(prefers-reduced-motion: reduce)');
+    function setPaused(paused:boolean) { mosaic.classList.toggle('is-paused',paused); button?.setAttribute('aria-pressed',String(paused)); if(button)button.textContent=paused?'播放影像':'暂停影像'; }
+    setPaused(preference.matches);
+    button?.addEventListener('click',()=>setPaused(!mosaic.classList.contains('is-paused')));
+    preference.addEventListener('change',()=>setPaused(preference.matches));
+  });
+</script>
