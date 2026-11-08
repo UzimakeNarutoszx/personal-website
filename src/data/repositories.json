@@ -27,6 +27,10 @@
     "url": "https://github.com/UzimakeNarutoszx/growth-institute-oss",
     "private": false
   },
+  "jianwen-oss": {
+    "url": "https://github.com/UzimakeNarutoszx/jianwen-oss",
+    "private": false
+  },
   "jili-drum-cart-oss": {
     "url": "https://github.com/UzimakeNarutoszx/jili-drum-cart-oss",
     "private": false
@@ -35,8 +39,36 @@
     "url": "https://github.com/UzimakeNarutoszx/naruto-sasuke-trials-oss",
     "private": false
   },
+  "personal-home-archive-oss": {
+    "url": "https://github.com/UzimakeNarutoszx/personal-home-archive-oss",
+    "private": false
+  },
   "personal-website-oss": {
     "url": "https://github.com/UzimakeNarutoszx/personal-website-oss",
+    "private": false
+  },
+  "robotics-competitions-oss": {
+    "url": "https://github.com/UzimakeNarutoszx/robotics-competitions-oss",
+    "private": false
+  },
+  "soulx-singer-desktop-oss": {
+    "url": "https://github.com/UzimakeNarutoszx/soulx-singer-desktop-oss",
+    "private": false
+  },
+  "spaceship-battle-oss": {
+    "url": "https://github.com/UzimakeNarutoszx/spaceship-battle-oss",
+    "private": false
+  },
+  "UzimakiNaruto": {
+    "url": "https://github.com/UzimakeNarutoszx/UzimakiNaruto",
+    "private": false
+  },
+  "xunyue-studio-oss": {
+    "url": "https://github.com/UzimakeNarutoszx/xunyue-studio-oss",
+    "private": false
+  },
+  "Zhuozheng-oss": {
+    "url": "https://github.com/UzimakeNarutoszx/Zhuozheng-oss",
     "private": false
   }
 }
