@@ -8,7 +8,8 @@ export default function Hero() {
     const preference = matchMedia('(prefers-reduced-motion: reduce)');
     const sync = () => {
       if (preference.matches) { video.current?.pause(); setPaused(true); }
-      else { void video.current?.play().catch(() => setPaused(true)); }
+      else if (!(navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData) { void video.current?.play().catch(() => setPaused(true)); }
+    else { video.current?.pause(); setPaused(true); }
     };
     sync();
     preference.addEventListener('change', sync);
@@ -16,7 +17,7 @@ export default function Hero() {
   }, []);
   return <section className="creative-hero" aria-label="昔日烬 · 枢，声音与代码">
     <div className="creative-media" aria-hidden="true">
-      <video ref={video} src="https://r2.motionsites.dev/motionsites/assets/0cef950902b6.mp4" poster="/assets/creative-poster.webp" muted loop playsInline preload="metadata" onPlay={() => setPaused(false)} onPause={() => setPaused(true)} tabIndex={-1} />
+      <video ref={video} src="/assets/creative-loop.mp4" poster="/assets/creative-poster.webp" muted loop playsInline preload="metadata" onPlay={() => setPaused(false)} onPause={() => setPaused(true)} tabIndex={-1} />
       <span className="edge edge-top" /><span className="edge edge-right" /><span className="edge edge-bottom" /><span className="edge edge-left" />
     </div>
     <div className="creative-content">

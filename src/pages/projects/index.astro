@@ -7,18 +7,39 @@ const categories = [...new Set(projects.map(project => project.category))];
 ---
 <SiteLayout title="项目" description="ENS 的代码实验与项目记录。从创作辅助到实用工具，让想法逐步成为可用的作品。">
   <div class="wrap"><header class="archive-intro"><div class="archive-copy"><p class="section-note">ENS / 代码与交互</p><h1>好奇心，<br />有了具体的形状</h1><p>阅读、园林、游戏，还有音乐。<br />从一个小问题出发，把想法做成作品，<br />也把探索的过程留在这里。</p><a class="text-link" href="#project-list">浏览全部 {projects.length} 项 <span aria-hidden="true">↓</span></a></div><ArchiveMosaic /></header>
-  <section class="projects-browser archive-list" id="project-list" aria-label="项目列表"><div class="project-filter" role="group" aria-label="按项目类别筛选"><button class="filter-button" data-filter="all" aria-pressed="true">全部 <span>{projects.length}</span></button>{categories.map(category => <button class="filter-button" data-filter={category} aria-pressed="false">{category}</button>)}</div><p class="sr-only" id="filter-status" role="status" aria-live="polite" />
+  <section class="projects-browser archive-list" id="project-list" aria-label="项目列表"><div class="project-search"><label class="sr-only" for="project-search">搜索项目</label><input id="project-search" type="search" placeholder="搜索项目、技术或关键词" autocomplete="off" /><span id="project-search-count" aria-live="polite"></span></div><div class="project-filter" role="group" aria-label="按项目类别筛选"><button class="filter-button" data-filter="all" aria-pressed="true">全部 <span>{projects.length}</span></button>{categories.map(category => <button class="filter-button" data-filter={category} aria-pressed="false">{category}</button>)}</div><p class="sr-only" id="filter-status" role="status" aria-live="polite" />
   <div class="project-grid all-projects">{projects.map(project => <ProjectCard project={project} />)}</div><p class="filter-empty" hidden>这个分类暂时没有项目，请选择其他分类。</p></section></div>
   <script>
     const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
-    const cards = document.querySelectorAll<HTMLElement>('[data-project-category]');
-    buttons.forEach(button => button.addEventListener('click', () => {
-      const filter = button.dataset.filter;
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-project-category]'));
+    const search = document.querySelector<HTMLInputElement>('#project-search');
+    const searchCount = document.querySelector('#project-search-count');
+    let activeFilter = 'all';
+    function apply() {
+      const query = (search?.value || '').trim().toLowerCase();
       let count = 0;
-      buttons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-      cards.forEach(card => { const show = filter === 'all' || card.dataset.projectCategory === filter; card.hidden = !show; if (show) count++; });
-      const status = document.querySelector('#filter-status'); if (status) status.textContent = `显示 ${count} 个项目`;
-      const empty = document.querySelector<HTMLElement>('.filter-empty'); if (empty) empty.hidden = count > 0;
-    }));
+      buttons.forEach(item => item.setAttribute('aria-pressed', String(item.dataset.filter === activeFilter)));
+      cards.forEach(card => {
+        const categoryMatch = activeFilter === 'all' || card.dataset.projectCategory === activeFilter;
+        const textMatch = !query || (card.dataset.projectSearch || '').toLowerCase().includes(query);
+        const show = categoryMatch && textMatch;
+        card.hidden = !show;
+        if (show) count++;
+      });
+      const status = document.querySelector('#filter-status');
+      if (status) status.textContent = `显示 ${count} 个项目`;
+      if (searchCount) searchCount.textContent = query ? `找到 ${count} 个项目` : '';
+      const empty = document.querySelector<HTMLElement>('.filter-empty');
+      if (empty) empty.hidden = count > 0;
+    }
+    buttons.forEach(button => button.addEventListener('click', () => { activeFilter = button.dataset.filter || 'all'; apply(); }));
+    search?.addEventListener('input', apply);
+    apply();
   </script>
 </SiteLayout>
+<style>
+  .project-search { display: flex; align-items: center; gap: 14px; padding-bottom: 18px; }
+  .project-search input { width: min(360px, 100%); padding: 12px 14px; border: 1px solid var(--line); border-radius: 6px; background: var(--float); color: var(--ink); font: inherit; }
+  .project-search input:focus-visible { outline: 0; box-shadow: 0 0 0 1px rgba(156,77,53,.22), 0 0 0 4px rgba(156,77,53,.1); }
+  #project-search-count { color: var(--muted); font-size: 12px; }
+</style>

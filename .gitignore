@@ -8,3 +8,5 @@ dist/
 public/media/
 output/
 *.log
+
+media-src/

@@ -4,11 +4,14 @@ import type { Track } from '../data/types';
 import { formatTime, pauseOtherMedia } from './media-utils';
 
 export default function ArtistPlayer({ tracks }: { tracks: Track[] }) {
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(() => {
+    try { const saved = Number(localStorage.getItem('xirijin:last-track')); return saved >= 0 && saved < tracks.length ? saved : 0 } catch { return 0 }
+  });
   const [playing, setPlaying] = useState(false);
   const [position, setPosition] = useState(0);
   const [volume, setVolume] = useState(.75);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const audio = useRef<HTMLAudioElement>(null);
   const wave = useRef<HTMLCanvasElement>(null);
   const album = useRef<HTMLButtonElement>(null);
@@ -19,9 +22,11 @@ export default function ArtistPlayer({ tracks }: { tracks: Track[] }) {
   function play() {
     if (!audio.current) return;
     setError('');
+    setLoading(true);
     pauseOtherMedia(audio.current);
     void audio.current.play().catch(reason => {
-      if (reason.name !== 'AbortError') setError('暂时无法播放，请重试或选择另一首。');
+      setLoading(false);
+      if (reason.name !== 'AbortError') setError('暂时无法播放，请检查网络后重试。');
     });
   }
   function toggle() { if (audio.current?.paused) play(); else audio.current?.pause(); }
@@ -30,10 +35,16 @@ export default function ArtistPlayer({ tracks }: { tracks: Track[] }) {
     audio.current?.pause(); autoPlayNext.current = true; setIndex(next);
   }
   useEffect(() => {
-    setPosition(0); setError(''); setPlaying(false);
+    setPosition(0); setError(''); setPlaying(false); setLoading(false);
     if (autoPlayNext.current) { autoPlayNext.current = false; play(); }
   }, [index]);
   useEffect(() => { if (audio.current) audio.current.volume = volume; }, [volume]);
+  useEffect(() => {
+    try { localStorage.setItem('xirijin:last-track', String(index)) } catch {}
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({ title: track.title, artist: track.artist, album: '殉乐集', artwork: [{ src: track.cover, sizes: '480x480', type: 'image/webp' }] })
+    }
+  }, [index]);
   useEffect(() => {
     const canvas = wave.current;
     const context = canvas?.getContext('2d');
@@ -78,13 +89,13 @@ export default function ArtistPlayer({ tracks }: { tracks: Track[] }) {
         <canvas ref={wave} className={`artist-wave ${playing ? 'visible' : ''}`} aria-hidden="true" />
         <button ref={album} className="artist-album" type="button" aria-label={`${playing ? '暂停' : '播放'}《${track.title}》`} onClick={toggle} onPointerMove={tilt} onPointerLeave={() => { album.current?.style.setProperty('--rx', '0deg'); album.current?.style.setProperty('--ry', '0deg'); }}>
           <img src={track.cover} alt={`《${track.title}》封面`} width="480" height="480" />
-          <span className="artist-album-play" aria-hidden="true">{playing ? 'Ⅱ' : '▶'}</span><span className="artist-album-label">{playing ? '暂停试听' : '点击聆听'}</span>
+          <span className="artist-album-play" aria-hidden="true">{playing ? 'Ⅱ' : '▶'}</span><span className="artist-album-label">{loading && !playing ? '正在载入…' : playing ? '暂停试听' : '点击聆听'}</span>
         </button>
       </div>
       <div className="artist-current"><h3>{track.title}</h3><p>{track.description}</p></div>
-      <audio ref={audio} src={track.src} preload="none" onPlay={event => { pauseOtherMedia(event.currentTarget); setPlaying(true); }} onPause={() => setPlaying(false)} onTimeUpdate={event => setPosition(event.currentTarget.currentTime)} onError={() => { setError('这首作品暂时无法播放，请选择另一首。'); setPlaying(false); }} onEnded={() => { setPlaying(false); if (index < tracks.length - 1) select(index + 1); else setPosition(0); }} />
+      <audio ref={audio} src={track.src} preload="metadata" onPlay={event => { pauseOtherMedia(event.currentTarget); setPlaying(true); }} onPause={() => { setPlaying(false); setLoading(false); }} onWaiting={() => setLoading(true)} onCanPlay={() => setLoading(false)} onPlaying={() => setLoading(false)} onTimeUpdate={event => setPosition(event.currentTarget.currentTime)} onError={() => { setError('这首作品暂时无法播放，请检查网络或选择另一首。'); setPlaying(false); setLoading(false); }} onEnded={() => { setPlaying(false); if (index < tracks.length - 1) select(index + 1); else setPosition(0); }} />
       <div className="artist-controls">
-        <div className="artist-transport"><button type="button" aria-label="上一首" disabled={index === 0} onClick={() => select(index - 1)}>Ⅰ◀</button><button className="artist-toggle" type="button" aria-label={`${playing ? '暂停' : '播放'}当前作品`} onClick={toggle}>{playing ? '暂停' : '播放'}</button><button type="button" aria-label="下一首" disabled={index === tracks.length - 1} onClick={() => select(index + 1)}>▶Ⅰ</button></div>
+        <div className="artist-transport"><button type="button" aria-label="上一首" disabled={index === 0} onClick={() => select(index - 1)}>Ⅰ◀</button><button className="artist-toggle" type="button" aria-label={`${playing ? '暂停' : '播放'}当前作品`} onClick={toggle}>{loading && !playing ? '载入中…' : playing ? '暂停' : '播放'}</button><button type="button" aria-label="下一首" disabled={index === tracks.length - 1} onClick={() => select(index + 1)}>▶Ⅰ</button></div>
         <label className="sr-only" htmlFor={`${id}-seek`}>播放进度</label><input id={`${id}-seek`} aria-valuetext={`${formatTime(position)}，共 ${formatTime(duration)}`} type="range" min="0" max={duration} step=".1" value={Math.min(position, duration)} onChange={event => { if (audio.current && audio.current.readyState > 0) { audio.current.currentTime = Number(event.target.value); setPosition(Number(event.target.value)); } }} />
         <span className="artist-time">{formatTime(position)} / {formatTime(duration)}</span>
         <label className="artist-volume">音量<input aria-label="音量" type="range" min="0" max="1" step=".01" value={volume} onChange={event => setVolume(Number(event.target.value))} /></label>

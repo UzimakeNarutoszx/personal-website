@@ -64,7 +64,7 @@ export default function MediaPlayer({ tracks, compact = false }: { tracks: Track
         <p className="player-overline">殉乐集 <span>{index + 1} / {tracks.length}</span></p>
         <h3>{track.title}</h3><p className="track-artist">{track.artist}</p>
         <p className="track-description">{track.description}</p>
-        <audio ref={audio} src={track.src} preload="none" onPlay={event => { pauseOtherMedia(event.currentTarget); setPlaying(true); }} onPlaying={() => setLoading(false)} onWaiting={() => setLoading(true)} onPause={() => { setPlaying(false); setLoading(false); }} onTimeUpdate={event => setPosition(event.currentTarget.currentTime)} onError={() => { setError('这首作品暂时无法播放，请选择另一首。'); setLoading(false); setPlaying(false); }} onEnded={() => {
+        <audio ref={audio} src={track.src} preload="metadata" onPlay={event => { pauseOtherMedia(event.currentTarget); setPlaying(true); }} onPlaying={() => setLoading(false)} onWaiting={() => setLoading(true)} onPause={() => { setPlaying(false); setLoading(false); }} onTimeUpdate={event => setPosition(event.currentTarget.currentTime)} onError={() => { setError('这首作品暂时无法播放，请选择另一首。'); setLoading(false); setPlaying(false); }} onEnded={() => {
           setPlaying(false);
           if (index < tracks.length - 1) select(index + 1);
           else setPosition(0);

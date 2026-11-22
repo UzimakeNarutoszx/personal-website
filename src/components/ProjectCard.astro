@@ -4,7 +4,7 @@ import RepositoryLink from './RepositoryLink.astro';
 interface Props { project: Project; index?: number; }
 const { project } = Astro.props;
 ---
-<article class="project-card" data-project-category={project.category} data-project-name={project.title}>
+<article class="project-card" data-project-category={project.category} data-project-name={project.title} data-project-search={`${project.title} ${project.summary} ${project.category} ${project.tags.join(" ")}`}>
   <a class="project-cover" href={`/projects/${project.slug}/`} tabindex="-1" aria-hidden="true"><img src={project.cover} alt="" loading="lazy" width="900" height="600" /><span class="cover-open" aria-hidden="true">↗</span></a>
   <div class="project-caption"><span class="project-category">{project.category}</span><h3><a href={`/projects/${project.slug}/`}>{project.title}</a></h3><p>{project.summary}</p><div class="project-tags">{project.tags.slice(0, 3).map(tag => <span>{tag}</span>)}</div>{project.website && <a class="project-website text-link" href={project.website} target="_blank" rel="noopener noreferrer" aria-label={`访问${project.title}网站（新窗口）`}>访问网站 <span aria-hidden="true">↗</span></a>}</div>
   <RepositoryLink name={project.repoName} />

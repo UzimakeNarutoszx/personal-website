@@ -31,7 +31,7 @@ npm run build
 
 此仓库公开完整网站代码与曲目文案，不分发原创音乐音频及动态谱视频。见闻、拙政观景使用云端实际截图和有声宣传片（见闻 v4、拙政 v2）；影片位于 `public/assets/projects/video/`，可随静态构建部署。展示媒体不按源码 MIT 许可重新授权，详见[媒体记录](docs/project-showcase.md)
 
-播放器读取 `src/data/music.ts` 与 `src/data/scores.ts` 中的资源地址。运行有声版本时，将有权使用的媒体放入被 Git 忽略的 `public/media/audio/`、`public/media/scores/`，或将 `src` 改为自己的 HTTPS 媒体地址；资源缺失时播放器显示错误反馈。音频、视频文件不受代码许可证授权
+播放器读取 `src/data/music.ts` 与 `src/data/scores.ts` 中的资源地址。音频默认压到 96k MP3，动态鼓谱压到 540p H.264；可用 `scripts/optimize-media.sh` 从原始媒体重新生成。运行有声版本时，将有权使用的媒体放入被 Git 忽略的 `public/media/audio/`、`public/media/scores/`，或将 `src` 改为自己的 HTTPS 媒体地址；资源缺失时播放器显示错误反馈。音频、视频文件不受代码许可证授权
 
 界面没有下载按钮。试听通过浏览器传输媒体，不提供防复制保证
 
@@ -62,7 +62,7 @@ npm run sync:repos
 线上地址：<https://jianwen.xin/personal/>。
 
 - Astro 配置 `base: '/personal'`；`npm run build` 末尾会执行 `scripts/apply-base.mjs`，把数据与手写链接里的 `/assets`、`/media`、`/projects` 等站内绝对路径补齐到 `/personal/` 下。
-- 构建产物含 `public/media/` 时约 276 MiB，需整体上传，不能只部署 Git 构建结果并宣称试听已上线。
+- 媒体经 `scripts/optimize-media.sh` 压缩后约 69 MiB（原始文件保留在 Git 忽略的 `media-src/`）；构建产物需整体上传，不能只部署 Git 构建结果并宣称试听已上线。
 - 服务器为阿里云 ECS + OpenResty，静态目录 `/opt/jianwen/personal/web`，复用 `jianwen.xin` 证书以子路径提供；`/personal/_astro/` 长缓存，`/personal/media/` 一周缓存，404 由 `/personal/404.html` 展示。
 
 ## 验证范围
