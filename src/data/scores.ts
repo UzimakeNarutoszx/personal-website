@@ -6,7 +6,7 @@ export const scores: Score[] = [
     "title": "Counting Stars",
     "kind": "动态鼓谱",
     "src": "/media/scores/counting-stars.mp4",
-    "poster": "/assets/scores/counting-stars-paper.webp",
+    "poster": "/assets/scores/counting-stars-cover.webp",
     "duration": 256.975,
     "credit": "殉乐 · 制谱与动态展示；原曲权利归原作者。"
   },
@@ -15,7 +15,7 @@ export const scores: Score[] = [
     "title": "不熄的光",
     "kind": "动态鼓谱",
     "src": "/media/scores/unfading-light.mp4",
-    "poster": "/assets/scores/unfading-light-paper.webp",
+    "poster": "/assets/scores/unfading-light-cover.webp",
     "duration": 227.277,
     "credit": "殉乐 · 制谱与动态展示；原曲权利归原作者。"
   },
@@ -24,7 +24,7 @@ export const scores: Score[] = [
     "title": "原色",
     "kind": "动态鼓谱",
     "src": "/media/scores/primary-colors.mp4",
-    "poster": "/assets/scores/primary-colors-paper.webp",
+    "poster": "/assets/scores/primary-colors-cover.webp",
     "duration": 81.641,
     "credit": "殉乐 · 制谱与动态展示；原曲权利归原作者。"
   },
@@ -33,7 +33,7 @@ export const scores: Score[] = [
     "title": "Zoo",
     "kind": "动态鼓谱",
     "src": "/media/scores/zoo.mp4",
-    "poster": "/assets/scores/zoo-paper.webp",
+    "poster": "/assets/scores/zoo-cover.webp",
     "duration": 191.007,
     "credit": "殉乐 · 制谱与动态展示；原曲权利归原作者。"
   },
@@ -42,7 +42,7 @@ export const scores: Score[] = [
     "title": "Love Story",
     "kind": "动态鼓谱",
     "src": "/media/scores/love-story.mp4",
-    "poster": "/assets/scores/love-story-paper.webp",
+    "poster": "/assets/scores/love-story-cover.webp",
     "duration": 236.867,
     "credit": "殉乐 · 制谱与动态展示；原曲权利归原作者。"
   },
@@ -51,7 +51,7 @@ export const scores: Score[] = [
     "title": "Bones",
     "kind": "动态鼓谱",
     "src": "/media/scores/bones.mp4",
-    "poster": "/assets/scores/bones-paper.webp",
+    "poster": "/assets/scores/bones-cover.webp",
     "duration": 161.17,
     "credit": "殉乐 · 制谱与动态展示；原曲权利归原作者。"
   },
@@ -60,7 +60,7 @@ export const scores: Score[] = [
     "title": "Wellerman",
     "kind": "动态伴奏",
     "src": "/media/scores/wellerman.mp4",
-    "poster": "/assets/scores/wellerman-paper.webp",
+    "poster": "/assets/scores/wellerman-cover.webp",
     "duration": 153.554,
     "credit": "殉乐 · 动态伴奏整理；原曲权利归原作者。"
   }
