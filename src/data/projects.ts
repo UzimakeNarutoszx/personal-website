@@ -12,7 +12,7 @@ export const projects: Project[] = [
     approach: ['以每日精选议题组织阅读入口，让短文章承载事实、背景和影响。', '把 AI 追问接在阅读之后，围绕同一议题继续解释。', '保留来源与内容层次，并用周报串起一段时间内的变化。'],
     highlights: ['Vue / uni-app 阅读界面与 Python API 分工。', '项目保留了阅读、报告、追问等界面与测试代码。', '同一内容延伸为网页、移动界面和周报展示。'],
     boundaries: '文章依据公开来源整理，AI 解释供延伸理解；来源、事实与解读需要分别辨认。',
-    repoName: 'jianwen-oss', website: 'http://8.147.110.194/jianwen/index.html?v=20261031-1',
+    repoName: 'jianwen-oss', website: 'https://jianwen.xin/jianwen/',
     gallery: [
       { src: '/assets/projects/jianwen-article.webp', alt: '云端实际界面 · 文章阅读' },
       { src: '/assets/projects/jianwen-login.webp', alt: '云端实际界面 · 登录入口' },
@@ -29,7 +29,7 @@ export const projects: Project[] = [
     approach: ['把造景方法拆成可浏览的主题，再连接到园内地图与观察点。', '将图像、窗框与三维资产放进同一套互动出版体验。', '从 2025 年的 Python 桌面版延伸到独立前后端网站。'],
     highlights: ['Leaflet 地图将空间位置与讲解内容关联。', '保留桌面旧版，呈现交互媒介的迭代。', '项目内维护图片来源、许可记录和本地启动入口。'],
     boundaries: '地图底图使用 OpenStreetMap，图片与参考资料按项目来源记录使用；园林本身与外部素材不属于个人原创。',
-    repoName: 'Zhuozheng-oss', website: 'http://8.147.110.194/garden/',
+    repoName: 'Zhuozheng-oss', website: 'https://jianwen.xin/zhuozheng/',
     gallery: [
       { src: '/assets/projects/zhuozheng-home.webp', alt: '云端实际界面 · 游园首页' },
       { src: '/assets/projects/zhuozheng-studio.webp', alt: '云端实际界面 · 花窗创作' },

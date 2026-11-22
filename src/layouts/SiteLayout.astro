@@ -25,7 +25,7 @@ const nav = [{ href: '/', text: '首页' }, { href: '/projects/', text: '项目'
     <a class="skip-link" href="#main">跳到正文</a>
     <header class="site-header wrap">
       <a class="wordmark" href="/" aria-label="昔日烬 · 枢 首页">昔日烬<span class="wordmark-separator">·</span><span class="wordmark-sub">枢</span></a>
-      <nav aria-label="主导航">{nav.map(item => <a href={item.href} aria-current={(item.href === '/' ? path === '/' : path.startsWith(item.href)) ? 'page' : undefined}>{item.text}</a>)}<a href="https://jianwen.xin/" target="_blank" rel="noopener noreferrer">见闻 <span aria-hidden="true">↗</span></a><a href="https://jianwen.xin/zhuozheng/" target="_blank" rel="noopener noreferrer">拙政 <span aria-hidden="true">↗</span></a><a class="nav-github" href={githubProfile} target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></nav>
+      <nav aria-label="主导航">{nav.map(item => <a href={item.href} aria-current={(item.href === '/' ? path === '/' : path.startsWith(item.href)) ? 'page' : undefined}>{item.text}</a>)}<a class="nav-github" href={githubProfile} target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></nav>
     </header>
     <main id="main"><slot /></main>
     <footer class="site-footer wrap">
