@@ -28,6 +28,10 @@ for (const file of await walk(DIST)) {
   if (ext === '.html') after = after.replace(ATTR, `$1${BASE}/$2`)
   if (ext === '.js' || ext === '.mjs' || ext === '.html') after = after.replace(JS_ROOT, `$1${BASE}/$2`)
   if (ext === '.css' || ext === '.html') after = after.replace(CSS_URL, `url(${BASE}/`)
+  // 给曾经 404/缓存过旧文件的媒体加版本参数，避免 Safari 继续用坏缓存。
+  if (ext === '.html' || ext === '.js' || ext === '.mjs') {
+    after = after.replace(/(\/personal\/(?:media\/(?:audio|scores)|assets\/(?:music|scores|creative-loop\.mp4|projects\/video))\/[^"'`\s?#)]+)(?=["'`\s)])/g, '$1?v=20261122')
+  }
   if (after !== before) {
     await writeFile(file, after)
     changed++

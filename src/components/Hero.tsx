@@ -17,7 +17,7 @@ export default function Hero() {
   }, []);
   return <section className="creative-hero" aria-label="昔日烬 · 枢，声音与代码">
     <div className="creative-media" aria-hidden="true">
-      <video ref={video} src="/assets/creative-loop.mp4" poster="/assets/creative-poster.webp" muted loop playsInline preload="metadata" onPlay={() => setPaused(false)} onPause={() => setPaused(true)} tabIndex={-1} />
+      <video ref={video} src="/assets/creative-loop.mp4" poster="/assets/creative-poster.webp" muted loop autoPlay playsInline preload="auto" onPlay={() => setPaused(false)} onPause={() => setPaused(true)} onCanPlay={() => { if (!matchMedia("(prefers-reduced-motion: reduce)").matches) void video.current?.play().catch(() => setPaused(true)) }} onLoadedData={() => { if (!matchMedia("(prefers-reduced-motion: reduce)").matches) void video.current?.play().catch(() => setPaused(true)) }} tabIndex={-1} />
       <span className="edge edge-top" /><span className="edge edge-right" /><span className="edge edge-bottom" /><span className="edge edge-left" />
     </div>
     <div className="creative-content">

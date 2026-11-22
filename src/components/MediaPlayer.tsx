@@ -12,6 +12,7 @@ export default function MediaPlayer({ tracks, compact = false }: { tracks: Track
   const [error, setError] = useState('');
   const audio = useRef<HTMLAudioElement>(null);
   const playAfterChange = useRef(false);
+  const retried = useRef(false);
   const id = useId();
   const track = tracks[index];
 
@@ -20,6 +21,7 @@ export default function MediaPlayer({ tracks, compact = false }: { tracks: Track
     if (!element) return;
     setError('');
     setLoading(true);
+    retried.current = false;
     pauseOtherMedia(element);
     void element.play().catch(reason => {
       if (reason.name !== 'AbortError') {
@@ -59,12 +61,20 @@ export default function MediaPlayer({ tracks, compact = false }: { tracks: Track
   const duration = track.duration;
   return <div className={`music-player ${compact ? 'music-player-compact' : ''}`}>
     <div className="now-playing">
-      <div className="album-art"><img src={track.cover} alt={`《${track.title}》封面`} width="480" height="480" loading="lazy" /><span className={`album-mark ${playing ? 'is-playing' : ''}`} aria-hidden="true"><i /><i /><i /><i /></span></div>
+      <div className="album-art"><img src={track.cover} alt={`《${track.title}》封面`} width="480" height="480" loading="eager" decoding="async" /><span className={`album-mark ${playing ? 'is-playing' : ''}`} aria-hidden="true"><i /><i /><i /><i /></span></div>
       <div className="now-playing-body">
         <p className="player-overline">殉乐集 <span>{index + 1} / {tracks.length}</span></p>
         <h3>{track.title}</h3><p className="track-artist">{track.artist}</p>
         <p className="track-description">{track.description}</p>
-        <audio ref={audio} src={track.src} preload="metadata" onPlay={event => { pauseOtherMedia(event.currentTarget); setPlaying(true); }} onPlaying={() => setLoading(false)} onWaiting={() => setLoading(true)} onPause={() => { setPlaying(false); setLoading(false); }} onTimeUpdate={event => setPosition(event.currentTarget.currentTime)} onError={() => { setError('这首作品暂时无法播放，请选择另一首。'); setLoading(false); setPlaying(false); }} onEnded={() => {
+        <audio ref={audio} src={track.src} preload="metadata" onPlay={event => { pauseOtherMedia(event.currentTarget); setPlaying(true); }} onPlaying={() => setLoading(false)} onWaiting={() => setLoading(true)} onPause={() => { setPlaying(false); setLoading(false); }} onTimeUpdate={event => setPosition(event.currentTarget.currentTime)} onError={() => {
+          if (!retried.current && audio.current) {
+            retried.current = true
+            setError('网络较慢，正在重试…')
+            setTimeout(() => { audio.current?.load(); play(); }, 700)
+            return
+          }
+          setError('这首作品暂时无法播放，请选择另一首。'); setLoading(false); setPlaying(false);
+        }} onEnded={() => {
           setPlaying(false);
           if (index < tracks.length - 1) select(index + 1);
           else setPosition(0);
