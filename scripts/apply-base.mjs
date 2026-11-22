@@ -25,7 +25,12 @@ for (const file of await walk(DIST)) {
   const before = await readFile(file, 'utf8')
   let after = before
   const ext = extname(file)
-  if (ext === '.html') after = after.replace(ATTR, `$1${BASE}/$2`)
+  if (ext === '.html') {
+    after = after.replace(ATTR, `$1${BASE}/$2`)
+    // Astro 把组件 props 序列化成 HTML 属性里的 JSON；只重写属性值开头的站内路径，避免重复加前缀。
+    after = after.replace(/(&quot;|\")\/(assets|media|projects|music|scores|about)\//g, `$1${BASE}/$2/`)
+    after = after.replace(/(&quot;|\")\/favicon\.svg/g, `$1${BASE}/favicon.svg`)
+  }
   if (ext === '.js' || ext === '.mjs' || ext === '.html') after = after.replace(JS_ROOT, `$1${BASE}/$2`)
   if (ext === '.css' || ext === '.html') after = after.replace(CSS_URL, `url(${BASE}/`)
   // 给曾经 404/缓存过旧文件的媒体加版本参数，避免 Safari 继续用坏缓存。
