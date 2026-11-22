@@ -15,7 +15,7 @@ copy_once() {
 for f in "$OUT"/audio/*.mp3; do
   base="$(basename "$f")"
   copy_once "$f" "$SRC/audio/$base"
-  ffmpeg -y -v error -i "$SRC/audio/$base" -map_metadata 0 -codec:a libmp3lame -b:a 96k "$OUT/audio/$base"
+  ffmpeg -y -v error -i "$SRC/audio/$base" -map 0:a -map_metadata 0 -vn -codec:a libmp3lame -b:a 80k "$OUT/audio/$base"
   echo "audio $base $(du -h "$OUT/audio/$base" | cut -f1)"
 done
 
