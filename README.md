@@ -57,6 +57,14 @@ npm run sync:repos
 
 原创实现代码与本仓库生成的抽象图片使用 [MIT License](LICENSE)。第三方库遵循各自许可证；云端截图、宣传片、海报、音乐、字体和项目关联素材不在该授权范围内
 
+## 部署
+
+线上地址：<https://jianwen.xin/personal/>。
+
+- Astro 配置 `base: '/personal'`；`npm run build` 末尾会执行 `scripts/apply-base.mjs`，把数据与手写链接里的 `/assets`、`/media`、`/projects` 等站内绝对路径补齐到 `/personal/` 下。
+- 构建产物含 `public/media/` 时约 276 MiB，需整体上传，不能只部署 Git 构建结果并宣称试听已上线。
+- 服务器为阿里云 ECS + OpenResty，静态目录 `/opt/jianwen/personal/web`，复用 `jianwen.xin` 证书以子路径提供；`/personal/_astro/` 长缓存，`/personal/media/` 一周缓存，404 由 `/personal/404.html` 展示。
+
 ## 验证范围
 
 公开前执行类型检查、静态构建、敏感信息扫描和文件清单检查。未在此公开版中补齐私人媒体，不能据此宣称在线试听已部署。项目资料中的历史实验与团队作品保留各自来源边界
