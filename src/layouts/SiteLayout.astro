@@ -6,6 +6,9 @@ import { githubProfile } from '../data/github';
 interface Props { title?: string; description?: string; }
 const { title = '昔日烬 · 枢', description = '昔日烬的个人创作空间。听见音乐，看见代码，记录正在发生的创作。' } = Astro.props;
 const path = Astro.url.pathname;
+// 站点部署在 /personal 子路径下，Astro.url.pathname 含 base；主题/导航判断要用去掉 base 的路由路径。
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const routePath = base && path.startsWith(base) ? (path.slice(base.length) || '/') : path;
 const siteBase = Astro.site ?? new URL(Astro.url.origin);
 const pageTitle = title === '昔日烬 · 枢' ? title : `${title} · 昔日烬`;
 const canonical = new URL(path, siteBase);
@@ -19,7 +22,7 @@ const nav = [{ href: '/', text: '首页' }, { href: '/projects/', text: '项目'
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content={path.startsWith('/music/') ? '#191b21' : '#ffffff'} />
+    <meta name="theme-color" content={routePath.startsWith('/music/') ? '#191b21' : '#ffffff'} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" />
@@ -41,7 +44,7 @@ const nav = [{ href: '/', text: '首页' }, { href: '/projects/', text: '项目'
     {isHome && <link rel="preload" as="image" href="/assets/creative-poster.webp" type="image/webp" fetchpriority="high" />}
     <title>{pageTitle}</title>
   </head>
-  <body class:list={{ 'home-page': path === '/', 'artist-page': path.startsWith('/music/') }}>
+  <body class:list={{ 'home-page': routePath === '/', 'artist-page': routePath.startsWith('/music/') }}>
     <a class="skip-link" href="#main">跳到正文</a>
     <header class="site-header wrap">
       <a class="wordmark" href="/" aria-label="昔日烬 · 枢 首页">昔日烬<span class="wordmark-separator">·</span><span class="wordmark-sub">枢</span></a>

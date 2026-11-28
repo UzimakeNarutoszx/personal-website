@@ -13,3 +13,5 @@
 .artist-page .site-header nav a{color:#eeeae2;font-weight:300}.artist-page .site-header{background:linear-gradient(180deg,#191b214d,transparent)}
 @media(pointer:coarse){.artist-glow{display:none}}
 @media(prefers-reduced-motion:reduce){.artist-album{transform:none!important}.artist-name-row [data-artist-letter]{animation:none}.artist-glow{display:none}}
+/* 波形画布用 transform 外扩，避免 108.8% 宽度造成 1px 横向滚动 */
+.artist-wave{left:0;width:100%;transform:none}
